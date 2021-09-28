@@ -79,10 +79,16 @@ def step_4(code, orig_DNA_sequence, new_AA_sequence):
   res = fetch_form('protein_4.cgi', form_data)
 
   reg = r'(<p />------------.*?###########<p />)'
-  reg_text = re.search(reg, res.text.replace('\n', '')).group(1)
+  reg_res = re.search(reg, res.text.replace('\n', ''))
+  if reg_res == None:
+    print("get step4 page error")
+    print("----------------------------------")
+    print(res.text.replace('\n', ''))
+    return 'code: ' + code + '\n Error in step4\n\n'
+  reg_text = reg_res.group(1)
 
   reg_text = reg_text.replace('<p />', '\n')
   reg_text = reg_text.replace('<br />', '\n')
   reg_text = reg_text.replace('&nbsp;', ' ')
 
-  return 'code: F625V' + reg_text + '\n\n'
+  return 'code: ' + code + reg_text + '\n\n'
